@@ -23,19 +23,65 @@ static void update_head(game_state_t* state, unsigned int snum);
 
 /* Task 1 */
 game_state_t* create_default_state() {
-  // TODO: Implement this function.
-  return NULL;
+
+  game_state_t* new_game = malloc(1 * sizeof(game_state_t));
+  new_game->num_rows = 18;
+  new_game->num_snakes = 1;
+  new_game->snakes = malloc(new_game->num_snakes * sizeof(snake_t));
+  new_game->board = malloc(new_game->num_rows * sizeof(char*));
+  char str1[] = "####################\0";
+  char str2[] = "#                  #\0";
+  char str3[] = "# d>D    *         #\0";
+  for (int i=0; i<new_game->num_rows; i++) {
+    new_game->board[i] = malloc(strlen(str1) * sizeof(char));
+    if (i == 0 || i == 17) strcpy(new_game->board[i], str1);
+    else if (i != 2) strcpy(new_game->board[i], str2);
+    else strcpy(new_game->board[i], str3);
+    // new_game->board[i][20] = '\0';
+  }
+  new_game->snakes[0].head_col = 4;
+  new_game->snakes[0].head_row = 2;
+  new_game->snakes[0].tail_col = 2;
+  new_game->snakes[0].tail_row = 2;
+  new_game->snakes[0].live = true;
+  return new_game;
 }
 
 /* Task 2 */
 void free_state(game_state_t* state) {
-  // TODO: Implement this function.
+  for (int i=0; i<state->num_rows; i++) free(state->board[i]);
+  free(state->board);
+  free(state->snakes);
+  free(state);
   return;
 }
 
 /* Task 3 */
 void print_board(game_state_t* state, FILE* fp) {
-  // TODO: Implement this function.
+  for (int i=0; i<state->num_rows; i++) {
+    fprintf(fp,"%s\n", state->board[i]);
+  }
+    char* expected =
+    "####################\n"
+    "#                  #\n"
+    "# d>D    *         #\n"
+    "#                  #\n"
+    "#                  #\n"
+    "#                  #\n"
+    "#                  #\n"
+    "#                  #\n"
+    "#                  #\n"
+    "#                  #\n"
+    "#                  #\n"
+    "#                  #\n"
+    "#                  #\n"
+    "#                  #\n"
+    "#                  #\n"
+    "#                  #\n"
+    "#                  #\n"
+    "####################\n";
+  // fputs(expected, fp);
+  printf("len = %lld\n", strlen(expected));
   return;
 }
 
